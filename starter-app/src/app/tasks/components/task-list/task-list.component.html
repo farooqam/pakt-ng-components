@@ -1,0 +1,10 @@
+<div class="row">
+  <mac-enter-task (taskEntered)="addTask($event)"></mac-enter-task>
+</div>
+
+<div class="row">
+  <div *ngFor="let task of tasks">
+    <mac-task [task]="task"></mac-task>
+  </div>
+</div>
+
