@@ -1,23 +1,27 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Task } from '../../models';
-import { IdGenService } from 'src/app/shared/utility';
+import { TaskService } from '../../services/task.service';
+
 
 @Component({
   selector: 'mac-task-list',
   templateUrl: './task-list.component.html'
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit {
 
-  constructor(private idGenService: IdGenService) {
+  private tasks: Task[];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.getTasks()
+      .subscribe(tasks => {
+        this.tasks = tasks;
+      },
+      error => console.log(error));
   }
-
-  tasks: Task[] = [
-    { id: this.idGenService.generateId(), title: 'Task 1', done: false },
-    { id: this.idGenService.generateId(), title: 'Task 2', done: true }
-  ];
 
   addTask(title: string): void {
-    this.tasks.push({id: this.idGenService.generateId(), title, done: false});
+    this.taskService.addTask(title);
   }
-
 }
