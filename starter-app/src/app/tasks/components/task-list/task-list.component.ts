@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import * as uuid from 'uuid';
+import { Task } from '../../models';
 
 @Component({
   selector: 'mac-task-list',
@@ -7,7 +8,7 @@ import * as uuid from 'uuid';
 })
 export class TaskListComponent {
 
-  tasks = [
+  tasks: Task[] = [
     { id: this.genId(), title: 'Task 1', done: false },
     { id: this.genId(), title: 'Task 2', done: true }
   ];

@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Task } from '../../models';
 
 @Component({
   selector: 'mac-task',
@@ -6,6 +7,5 @@ import { Component, ViewEncapsulation, Input } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class TaskComponent {
-
-  @Input() task: any;
+  @Input() task: Task;
 }
