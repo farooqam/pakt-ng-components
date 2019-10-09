@@ -1,0 +1,7 @@
+<button 
+    class="toggle-button" 
+    *ngFor="let buttonLabel of buttonLabels" 
+    [class.active]="buttonLabel === activeButtonLabel" 
+    (click)="activate(buttonLabel)">
+        {{buttonLabel}}
+</button>
