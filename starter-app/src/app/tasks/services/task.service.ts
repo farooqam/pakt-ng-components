@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models';
-import { IdGenService, LoggerService } from 'src/app/shared/utility';
-import { Observable, of } from 'rxjs';
+import { LoggerService } from 'src/app/shared/utility';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private tasks: Task[] = [
-    { id: this.idGenService.generateId(), title: 'Task 1', done: false },
-    { id: this.idGenService.generateId(), title: 'Task 2', done: true }
-  ];
+  private tasks = new BehaviorSubject<Task[]>([]);
 
-  constructor(private idGenService: IdGenService, private logger: LoggerService) { }
+  constructor(private http: HttpClient, private logger: LoggerService) {
+    this.loadTasks();
+  }
+
+  private loadTasks(): void {
+    this.http.get('api/tasks')
+      .subscribe((tasks: Task[]) => this.tasks.next(tasks));
+  }
 
   getTasks(): Observable<Task[]> {
-    return of(this.tasks);
+    return this.tasks.asObservable();
   }
 
-  addTask(title: string): void {
-    this.tasks.push({id: this.idGenService.generateId(), title, done: false});
+  addTask(title: string): Subscription {
+    return this.http.post<Task>('api/tasks', {title, done: false})
+      .subscribe(() => this.loadTasks());
   }
 
-  updateTask(task: Task): void {
-    const index = this.tasks.findIndex(t => task.id === t.id);
-
-    if (index === -1) {
-      this.logger.log('Task could not be updated (not found):\n'+ JSON.stringify(task));
-      throw new Error(`Did not find the task '${task.title}'`);
-    }
-
-    this.tasks[index] = task;
+  updateTask(task: Task): Subscription {
+    return this.http.put<Task>(`api/tasks/${task.id}`, task)
+      .subscribe(() => this.loadTasks());
   }
 }

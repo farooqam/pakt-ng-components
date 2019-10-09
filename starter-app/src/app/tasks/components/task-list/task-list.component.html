@@ -1,7 +1,7 @@
 <div class="row">
   <mac-toggle 
     [buttonLabels]="taskFilterTypes"
-    [activeButtonLabel]="activeFilterType"
+    [activeButtonLabel]="activeFilterType | async"
     (activated)="activateFilterType($event)">
   </mac-toggle>
 </div>
@@ -10,7 +10,7 @@
 </div>
 
 <div class="row">
-  <div *ngFor="let task of tasksToShow">
+  <div *ngFor="let task of tasksToShow | async">
     <mac-task [task]="task" (updated)="updateTask($event)"></mac-task>
   </div>
 </div>
