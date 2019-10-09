@@ -1,9 +1,16 @@
 <div class="row">
+  <mac-toggle 
+    [buttonLabels]="taskFilterTypes"
+    [activeButtonLabel]="activeFilterType"
+    (activated)="activateFilterType($event)">
+  </mac-toggle>
+</div>
+<div class="row">
   <mac-enter-task (taskEntered)="addTask($event)"></mac-enter-task>
 </div>
 
 <div class="row">
-  <div *ngFor="let task of tasks">
+  <div *ngFor="let task of tasksToShow">
     <mac-task [task]="task" (updated)="updateTask($event)"></mac-task>
   </div>
 </div>
