@@ -6,6 +6,7 @@ import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskComponent } from './components/task/task.component';
 import { EnterTaskComponent } from './components/enter-task/enter-task.component';
 import { UiModule } from '../shared/ui/ui.module';
+import { TaskService } from './services/task.service';
 
 
 @NgModule({
@@ -14,6 +15,9 @@ import { UiModule } from '../shared/ui/ui.module';
     CommonModule,
     UiModule,
     TasksRoutingModule
+  ],
+  providers: [
+    TaskService
   ]
 })
 export class TasksModule { }

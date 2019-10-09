@@ -27,4 +27,9 @@ export class TaskListComponent implements OnInit {
     this.taskService.addTask(title);
     this.logger.log(`Added task '${title}'`);
   }
+
+  updateTask(task: Task) {
+    this.taskService.updateTask(task);
+    this.logger.log('Updated task:\n' + JSON.stringify(task));
+  }
 }

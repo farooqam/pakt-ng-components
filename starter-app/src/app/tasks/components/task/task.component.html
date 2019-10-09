@@ -1,2 +1,2 @@
-<mac-checkbox [checked]="task.done" (changed)="task.done = $event"></mac-checkbox>
+<mac-checkbox [checked]="task.done" (changed)="updateTask($event)"></mac-checkbox>
 <div class="title">{{task.title}}</div>

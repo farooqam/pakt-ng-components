@@ -4,7 +4,6 @@
 
 <div class="row">
   <div *ngFor="let task of tasks">
-    <mac-task [task]="task"></mac-task>
+    <mac-task [task]="task" (updated)="updateTask($event)"></mac-task>
   </div>
 </div>
-

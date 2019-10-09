@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../../models';
 
 @Component({
@@ -8,4 +8,12 @@ import { Task } from '../../models';
 })
 export class TaskComponent {
   @Input() task: Task;
+  @Output() updated = new EventEmitter<Task>();
+
+  updateTask(done: boolean): void {
+    this.updated.emit({
+      ...this.task,
+      done
+    });
+  }
 }
