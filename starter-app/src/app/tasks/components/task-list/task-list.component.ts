@@ -1,55 +1,31 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Task, TaskListFilterType } from '../../models';
-import { TaskService } from '../../services/task.service';
-import { LoggerService } from 'src/app/shared/utility';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'mac-task-list',
   templateUrl: './task-list.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent {
+  @Input() taskFilterTypes: TaskListFilterType[];
+  @Input() activeTaskFilterType: TaskListFilterType;
+  @Input() tasks: Task[];
 
-  private tasks: Observable<Task[]>;
-  tasksToShow: Observable<Task[]>;
-  activeFilterType = new BehaviorSubject<TaskListFilterType>('all');
-  taskFilterTypes: TaskListFilterType[] = ['all', 'open', 'done'];
-
-  constructor(private taskService: TaskService, private logger: LoggerService) {
-    this.tasks = taskService.getTasks();
-
-    this.tasksToShow = combineLatest(this.tasks, this.activeFilterType)
-      .pipe(
-        map(([tasks, activeFilterType]) => {
-          return tasks.filter((task: Task) => {
-            if (activeFilterType === 'all') {
-              return true;
-            }
-
-            if (activeFilterType === 'open') {
-              return !task.done;
-            }
-
-            return task.done;
-          });
-        })
-      );
-  }
+  @Output() taskAdded = new EventEmitter<string>();
+  @Output() taskUpdated = new EventEmitter<Task>();
+  @Output() activeTaskFilterTypeChanged = new EventEmitter<TaskListFilterType>();
 
   activateFilterType(type: TaskListFilterType): void {
-    this.activeFilterType.next(type);
+    this.activeTaskFilterTypeChanged.emit(type);
   }
 
   addTask(title: string): void {
-    this.taskService.addTask(title);
-    this.logger.log(`Added task '${title}'`);
+    this.taskAdded.emit(title);
   }
 
   updateTask(task: Task) {
-    this.taskService.updateTask(task);
-    this.logger.log('Updated task:\n' + JSON.stringify(task));
+    this.taskUpdated.emit(task);
   }
 }
 
