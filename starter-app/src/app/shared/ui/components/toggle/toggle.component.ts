@@ -1,6 +1,5 @@
 import { 
-  Component, 
-  OnInit, 
+  Component,  
   ViewEncapsulation, 
   Output, 
   Input, 
@@ -11,13 +10,11 @@ import {
   templateUrl: './toggle.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class ToggleComponent implements OnInit {
+export class ToggleComponent {
   @Input() buttonLabels: string[];
   @Input() activeButtonLabel: string;
   @Output() activated = new EventEmitter<string>();
-  constructor() { }
-
-  ngOnInit() {
+  constructor() { 
     if (!this.activeButtonLabel) {
       this.activeButtonLabel = this.buttonLabels[0];
     }

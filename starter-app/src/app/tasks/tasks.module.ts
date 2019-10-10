@@ -7,10 +7,11 @@ import { TaskComponent } from './components/task/task.component';
 import { EnterTaskComponent } from './components/enter-task/enter-task.component';
 import { UiModule } from '../shared/ui/ui.module';
 import { TaskService } from './services/task.service';
+import { TaskListContainerComponent } from './components/task-list-container/task-list-container.component';
 
 
 @NgModule({
-  declarations: [TaskListComponent, TaskComponent, EnterTaskComponent],
+  declarations: [TaskListComponent, TaskComponent, EnterTaskComponent, TaskListContainerComponent],
   imports: [
     CommonModule,
     UiModule,
